@@ -104,7 +104,7 @@ class Container extends Component {
         setTimeout(function() {
           win.print();
           win.close();
-      }, 250);
+      }, 500);
   }
   setSelectedDay = (day) => {
     
