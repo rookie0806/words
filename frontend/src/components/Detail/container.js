@@ -74,9 +74,6 @@ class Container extends Component {
         document.getElementById("failword").value = "";
       }
       catch (error) {
-        console.error(error);
-        // expected output: ReferenceError: nonExistentFunction is not defined
-        // Note - error messages will vary depending on browser
       }
     }
   }
@@ -197,17 +194,22 @@ class Container extends Component {
         document.getElementById("textarea").value = nextProps.studentinfo.bigo;
       }
       catch (error) {
-        console.error(error);
-        // expected output: ReferenceError: nonExistentFunction is not defined
-        // Note - error messages will vary depending on browser
       }
     }
     if(nextProps.testlist){
-      this.setState({
-        testlist: nextProps.testlist,
-        start_day : nextProps.testlist[0].end_day + 1,
-        end_day : nextProps.testlist[0].end_day + 3
-      })
+      try{
+        this.setState({
+          testlist: nextProps.testlist,
+          start_day : nextProps.testlist[0].end_day + 1,
+          end_day : nextProps.testlist[0].end_day + 3
+        })
+      }
+      catch(e){
+        this.setState({
+          testlist: nextProps.testlist,
+        })
+      }
+      
     }
     if(nextProps.booklist){
       this.setState({
