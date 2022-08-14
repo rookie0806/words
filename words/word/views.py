@@ -11,7 +11,6 @@ import os
 from django.views.decorators.csrf import csrf_exempt   
 import json 
 from django.utils.decorators import method_decorator
-import excel2img
 class Search(APIView):
     def get(self, request, format=None):
         student_search = request.query_params.get('name', None)
