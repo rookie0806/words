@@ -53,9 +53,9 @@ class Sclass(MP_Node):
 
 class Student(models.Model):
     name = models.CharField(max_length=50,null=True)
-    birth =  BirthdayField(null=True)
-    phone_number = models.CharField(max_length=50,null=True)
-    bigo = models.TextField(max_length=300)
+    birth =  BirthdayField(null=True,blank=True)
+    phone_number = models.CharField(max_length=50,null=True,blank=True)
+    bigo = models.TextField(max_length=300,blank=True,null=True)
     sclasss = models.ManyToManyField(Sclass,related_name='std_class')
     uuid = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     def __str__(self):
