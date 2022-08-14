@@ -42,19 +42,20 @@ class SimpleStudentSerializer(serializers.ModelSerializer):
         )
 
 class WordSerializer(serializers.ModelSerializer):
+    
     class Meta:
         model = models.Word
         fields = (
             'book_name',
             'day',
             'word_eng',
+            'id',
             'uuid'
         )
 
 class TestSerializer(serializers.ModelSerializer):
     student = StudentSerializer()
-    test_words = WordSerializer(many=True, read_only=True)
-    fail_words = WordSerializer(many=True, read_only=True)
+    test_words = serializers.SerializerMethodField() 
     class Meta:
         model = models.Test
         fields = (
@@ -65,8 +66,10 @@ class TestSerializer(serializers.ModelSerializer):
             'book_name',
             'uuid',
             'test_words',
-            'fail_words'
         )
+    def get_test_words(self, instance):
+        songs = instance.test_words.all().order_by('id')
+        return WordSerializer(songs, many=True).data
 
 class SimpleTestSerializer(serializers.ModelSerializer):
     test_words_count = serializers.SerializerMethodField()

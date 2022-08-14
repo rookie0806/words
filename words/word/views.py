@@ -6,7 +6,6 @@ from . import models, serializers
 from rest_framework.permissions import AllowAny
 import datetime
 from django.db.models import Q
-import openpyxl
 from datetime import date
 import os
 from django.views.decorators.csrf import csrf_exempt   
@@ -91,8 +90,8 @@ class Maketest(APIView):
         except:
             return Response(status=status.HTTP_404_NOT_FOUND)
         length = len(models.Word.objects.filter(Q(book_name=book_name)&Q(day__gte=start_day)&Q(day__lte=end_day)))
-        much = 144
-        if(int(length*cnt/100)<144):
+        much = 105
+        if(int(length*cnt/100)<105):
             much = int(length*cnt/100)
         data = models.Word.objects.filter(Q(book_name=book_name)&Q(day__gte=start_day)&Q(day__lte=end_day)).order_by('?')[:much]
         user = models.Student.objects.get(uuid=uuid)
@@ -189,7 +188,8 @@ class makeExcelAndImg(APIView):
     def get(self, request, format=None):
         uuid = request.query_params.get('uuid', None)
         test = models.Test.objects.get(uuid=uuid)
-        if(os.path.isfile(settings.MEDIA_ROOT + "\\image\\"+ uuid + '.png')):
+        return Response(data,status=status.HTTP_200_OK)
+        '''if(os.path.isfile(settings.MEDIA_ROOT + "\\image\\"+ uuid + '.png')):
             data = {"url" : "/media/image/"+ uuid + '.png'}
             return Response(data,status=status.HTTP_200_OK)
         else:
@@ -223,3 +223,4 @@ class makeExcelAndImg(APIView):
             excel2img.export_img(settings.MEDIA_ROOT + "\\excel\\"+ uuid + '.xlsx',settings.MEDIA_ROOT + "\\image\\"+ uuid + '.png',"","Sheet1!D7:Q64")
             data = {"url" : "/media/image/"+ uuid + '.png'}
             return Response(data,status=status.HTTP_200_OK)
+        '''

@@ -8,7 +8,9 @@ class Container extends Component {
     test_words : [],
     student : [],
     test : [],
+    testtable : [],
   };
+  
   static propTypes = {
     testinfo : PropTypes.array.isRequired,
     pathname : PropTypes.array.isRequired,
@@ -18,12 +20,28 @@ class Container extends Component {
   componentWillReceiveProps = nextProps => {
     if(nextProps.testinfo){
       this.setState({
-        student : nextProps.testinfo.student,
-        test_words : nextProps.testinfo.test_words
+        test : nextProps.testinfo
       })
+      var n = 105;
+      if(nextProps.testinfo.test_words.length<105){
+        n = nextProps.testinfo.test_words.length
+      }
+      for(var i=0;i<n;i++){
+        document.getElementById("day"+i).innerText  = nextProps.testinfo.test_words[i].day
+        document.getElementById("no"+i).innerText  = nextProps.testinfo.test_words[i].id
+        document.getElementById("word"+i).innerText = nextProps.testinfo.test_words[i].word_eng
+      }
     }
   };
   componentDidMount() {
+    var x= [];
+    for (var i = 0; i < 35; i++) {
+      x.push(i)
+    }
+    this.setState({
+      testtable : x
+    })
+    console.log(this.state.testtable);
     const {pathname,getTestInfo} = this.props;
     getTestInfo(pathname.split('test/')[1]);
   };
@@ -37,6 +55,7 @@ class Container extends Component {
     }
   }
   render() {
+  
     return (
       <Main {...this.state} onKeyPress={this.onKeyPress} />
     );

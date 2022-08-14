@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import Detail from "./presenter";
-
+import Main from "../Main/presenter";
 class Container extends Component {
   state = {
     text : "",
@@ -38,6 +38,7 @@ class Container extends Component {
     id : "",
     word : "",
     deleteflag : false,
+    testuuid : "",
   };
   static propTypes = {
     getTestList : PropTypes.func.isRequired,
@@ -102,10 +103,11 @@ class Container extends Component {
   }
   printImage = (uuid) => {
     const {getImgurl} = this.props;
-    getImgurl(uuid);
-    this.setState({
-      imgok : true
-    })
+    var win = window.open("/test/"+uuid);
+        setTimeout(function() {
+          win.print();
+          win.close();
+      }, 250);
   }
   setSelectedDay = (day) => {
     
@@ -151,7 +153,12 @@ class Container extends Component {
         this.setState({
           imgok : false,
         })
-        var win = window.open(); 
+        var win = window.open("/test/"+this.state.testuuid);
+        setTimeout(function() {
+          win.print();
+          win.close();
+      }, 250);
+        /*
         win.document.write('<html lang="jp"><head>');
         win.document.write('<meta charset="UTF-8">');
         win.document.write('')
@@ -163,11 +170,11 @@ class Container extends Component {
         oImg.style.width = "100%";
         win.document.body.appendChild(oImg);
         document.margin = "11mm 17mm 17mm 17mm";
+        */
         setTimeout(function() {
             win.print();
             win.close();
         }, 250);
-        
       }
     }
     if(nextProps.classlist){
