@@ -1,0 +1,54 @@
+@import 'reset-css';
+@import url("https://fonts.googleapis.com/css?family=Roboto:300:400,500");
+
+body {
+  background-color: white;
+  font-family: 'SC1';
+  font-size: 15px;
+}
+* {
+  box-sizing: border-box;
+}
+
+img {
+  max-width: 100%;
+}
+
+
+@font-face {
+  font-family: "SC1";
+  src: url("../Font/SCDream1.ttf");
+}
+
+@font-face {
+  font-family: "SC2";
+  src: url("../Font/SCDream2.ttf");
+}
+
+@font-face {
+  font-family: "SC3";
+  src: url("../Font/SCDream3.ttf");
+}
+
+@font-face {
+  font-family: "SC4";
+  src: url("../Font/SCDream4.ttf");
+}
+
+
+@font-face {
+  font-family: "SC6";
+  src: url("../Font/SCDream6.ttf");
+}
+@font-face {
+  font-family: "SC7";
+  src: url("../Font/SCDream7.ttf");
+}
+@font-face {
+  font-family: "SC8";
+  src: url("../Font/SCDream8.ttf");
+}
+@font-face {
+  font-family: "SC9";
+  src: url("../Font/SCDream9.ttf");
+}
