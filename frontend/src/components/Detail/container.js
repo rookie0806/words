@@ -102,7 +102,12 @@ class Container extends Component {
     const {getImgurl} = this.props;
     var win = window.open("/test/"+uuid);
         setTimeout(function() {
-          win.print();
+          try {
+            document.execCommand('print', false, null);
+          }
+          catch(e) {
+            window.print();
+          }
           win.close();
       }, 700);
   }
