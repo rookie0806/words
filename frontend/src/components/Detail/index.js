@@ -41,8 +41,8 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     setStudentBigo : (bigo,uuid) => {
       dispatch(wordsActions.setStudentBigo(bigo,uuid));
     },
-    makeTest : (uuid,start_day,end_day,percent,book_name) => {
-      dispatch(wordsActions.makeTest(uuid,start_day,end_day,percent,book_name));
+    makeTest : (uuid,start_day,end_day,percent,book_name,test_date) => {
+      dispatch(wordsActions.makeTest(uuid,start_day,end_day,percent,book_name,test_date));
     },
     setFailWord : (uuid,id) => {
       dispatch(wordsActions.setFailWord(uuid,id));

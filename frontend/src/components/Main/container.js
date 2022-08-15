@@ -32,6 +32,7 @@ class Container extends Component {
         document.getElementById("word"+i).innerText = nextProps.testinfo.test_words[i].word_eng
       }
     }
+    
   };
   componentDidMount() {
     var x= [];

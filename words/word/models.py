@@ -12,7 +12,7 @@ class Word(models.Model):
         return '{} - {}'.format(self.book_name, self.word_eng)
 
 class FailWord(models.Model):
-    student  = models.ForeignKey('Student',related_name='word_std',on_delete=models.PROTECT)
+    student  = models.ForeignKey('Student',related_name='word_std',on_delete=models.CASCADE)
     fail_words = models.ManyToManyField(Word,related_name='word_fail',null=True, blank=True)
 
 class BookName(models.Model):
@@ -21,7 +21,7 @@ class BookName(models.Model):
         return '{}'.format(self.name)
 
 class Test(models.Model):
-    student = models.ForeignKey('Student',related_name='std_test',on_delete=models.PROTECT)
+    student = models.ForeignKey('Student',related_name='std_test',on_delete=models.CASCADE)
     score = models.BooleanField(default=False)
     test_date = BirthdayField(null=True)
     start_day = models.IntegerField(null=True)

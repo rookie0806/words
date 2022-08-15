@@ -11,7 +11,7 @@ from django.core.files.temp import NamedTemporaryFile
 
 f = open('test.csv','r', encoding="UTF-8")
 rdr = csv.reader(f)
- 
+Word.objects.all().delete()
 print("Start")
 for line in rdr:
     tmp = Word.objects.create(book_name=line[0],day=int(line[1].split('일')[0]),word_eng=line[2])

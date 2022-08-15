@@ -175,7 +175,7 @@ function setFailWord(uuid,id) {
       .catch(err => console.log(err));
   }
 }
-function makeTest(uuid,start_day,end_day,percent,book_name){
+function makeTest(uuid,start_day,end_day,percent,book_name,test_date){
   return (dispatch, getState ) => {
     fetch("/words/maketest/",{
         method: "POST",
@@ -188,14 +188,17 @@ function makeTest(uuid,start_day,end_day,percent,book_name){
             "end_day" : end_day,
             "cnt" : percent,
             "book_name" : book_name,
+            "test_date" : test_date,
         })
     })
     .then(response => {
-      return response.status;
-    }) .then(status => {
-      dispatch(setStatusCode(status));
+      return response.json();
     })
-}
+    .then(json => {
+      dispatch(setStatusCode(json));
+    })
+    .catch(err => console.log(err));
+  };
 }
 
 function getBookList(){

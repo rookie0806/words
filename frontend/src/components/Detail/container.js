@@ -39,10 +39,12 @@ class Container extends Component {
     word : "",
     deleteflag : false,
     testuuid : "",
+    test_date : "",
   };
   static propTypes = {
     getTestList : PropTypes.func.isRequired,
     getClassList : PropTypes.func.isRequired,
+    statuscode:PropTypes.string.isRequired,
     getStudentList : PropTypes.func.isRequired,
     getStudentInfo : PropTypes.func.isRequired,
     getImgurl: PropTypes.func.isRequired,
@@ -102,13 +104,8 @@ class Container extends Component {
     const {getImgurl} = this.props;
     var win = window.open("/test/"+uuid);
         setTimeout(function() {
-          try {
-            document.execCommand('print', false, null);
-          }
-          catch(e) {
-            window.print();
-          }
-          win.close();
+            win.print();
+            win.close();
       }, 700);
   }
   setSelectedDay = (day) => {
@@ -217,17 +214,23 @@ class Container extends Component {
       
     }
     if(nextProps.booklist){
-      this.setState({
-        booklist: nextProps.booklist,
-        selectbook : nextProps.booklist[0].name
-      })
+      try{
+        this.setState({
+          booklist: nextProps.booklist,
+          selectbook : nextProps.booklist[0].name
+        })
+      } 
+      catch(e){
+        this.setState({
+          booklist: nextProps.booklist
+          })
+      }
     }
     if(nextProps.status){
       if(this.state.deleteflag==true){
         this.setState({
           deleteflag : false
         })
-        console.log(nextProps.status.status)
         if(nextProps.status.status=="delete"){
           getTestList(this.state.stduuid)
         }
@@ -240,21 +243,26 @@ class Container extends Component {
     }
     if(nextProps.statuscode){
       if(this.state.alram==true){
-        if(nextProps.statuscode==201){
-          alert("테스트 생성 완료")
-          getTestList(this.state.stduuid)
-        }
-        if(nextProps.statuscode!=201){
-          alert("테스트 생성 실패")
-        }
         this.setState({
           alram: false,
-        })
+        }
+        , () => {
+          getTestList(this.state.stduuid)
+        }); 
+        
       }
     }
   };
   
   componentDidMount() {
+    let today = new Date();   
+
+    let year = today.getFullYear(); // 년도
+    let month = today.getMonth() + 1;  // 월
+    let date = today.getDate();  // 날짜
+    this.setState({
+      test_date : year + '-' + month + '-' + date
+    })
     const{getClassList,getBookList} = this.props;
     getClassList();
     getBookList();
@@ -280,9 +288,9 @@ class Container extends Component {
       isOpen: false,
       alram: true,
       stduuid : e.currentTarget.id
-    })
-    makeTest(e.currentTarget.id,this.state.start_day,this.state.end_day,this.state.selectcnt,this.state.selectbook)
-    
+    }, () => {
+      makeTest(this.state.stduuid,this.state.start_day,this.state.end_day,this.state.selectcnt,this.state.selectbook,this.state.test_date)
+    });
   }
   handle = (e) =>{
     this.setState({
@@ -290,6 +298,7 @@ class Container extends Component {
     })
   }
   render() {
+    
     const {isOpen,data,testlist,testlistloading,noselect,stdlist,stdinfo} = this.state;
     return (
       <Detail delete={this.delete} printImage={this.printImage }makeTestClick={this.makeTestClick} onKeyPress={this.onKeyPress} setSelectedDay={this.setSelectedDay} {...this.state} isOpen={isOpen} openModal2={this.openModal2} closeModal2={this.closeModal2} openModal={this.openModal} closeModal={this.closeModal} handle={this.handle} onsaveClick={this.onsaveClick} testlist={testlist} stdinfo={stdinfo} stdlist={stdlist} testlistloading={testlistloading} data={data} noselect={noselect}

@@ -37,6 +37,10 @@ const Detail = (props, context) => (
             
         </select>
         </div>
+        <div  className={styles.hrsect}>테스트 날짜를 입력해주세요</div>
+        <div className={styles.box}>
+          <input name="test_date" onChange={props.handle} className={styles.inputbox} defaultValue={props.test_date}/>
+        </div>
         <div  className={styles.hrsect}>시작 날짜와 끝날짜를 입력해주세요</div>
         <div className={styles.box}>
         <input name="start_day" onChange={props.handle} className={styles.inputbox} defaultValue={props.start_day}/>
@@ -91,6 +95,9 @@ const Detail = (props, context) => (
               저장
             </button>
           </div>
+        </div>
+        <div className={styles.middle2box}>
+          선택한 그룹 인원 : {props.stdlist.length} 명
         </div>
         <div className={styles.topbottombox}>
 
@@ -178,14 +185,14 @@ const Stdli= (props,context) => (
   {props.stduuid == props.std.uuid && (
     <li onClick={
         props.onClick} className={styles.stdlired} id={props.std.uuid}>
-        {props.std.name} {props.std.birth}
+        {props.std.name}
     </li>
   )
   }
   {props.stduuid != props.std.uuid && (
     <li onClick={
         props.onClick} className={styles.stdli} id={props.std.uuid}>
-        {props.std.name} {props.std.birth}
+        {props.std.name}
     </li>
   )
   }
@@ -210,7 +217,7 @@ const TestButton = (props,context) => (
       </td>
       <td  onClick={(e) => props.printImage(props.test.uuid)} className={styles.bodys}>{props.test2-props.index}
       </td>
-      <td  onClick={(e) => props.printImage(props.test.uuid)} className={styles.bodys}>{props.index}
+      <td  onClick={(e) => props.printImage(props.test.uuid)} className={styles.bodys}>{props.index+1}
       </td>
     </tr>
     )}

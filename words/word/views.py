@@ -64,7 +64,7 @@ class setTestFail(APIView):
             print(models.Word.objects.get(uuid=fail_words[i]))
             test.fail_words.add(models.Word.objects.get(uuid=fail_words[i]).id)
         test.save()
-        return Response(data=status.HTTP_201_CREATED)
+        return Response(status=status.HTTP_201_CREATED)
 
 class StudentRegister(APIView):
     def post(self,request,format=None):
@@ -86,21 +86,25 @@ class Maketest(APIView):
             cnt = int(request.data['cnt']) #percent로 받음
             uuid = request.data['uuid']
             book_name = request.data['book_name']
-        except:
-            return Response(status=status.HTTP_404_NOT_FOUND)
-        length = len(models.Word.objects.filter(Q(book_name=book_name)&Q(day__gte=start_day)&Q(day__lte=end_day)))
-        much = 105
-        if(int(length*cnt/100)<105):
-            much = int(length*cnt/100)
-        data = models.Word.objects.filter(Q(book_name=book_name)&Q(day__gte=start_day)&Q(day__lte=end_day)).order_by('?')[:much]
-        user = models.Student.objects.get(uuid=uuid)
-        today = date.today()
-        new_test = models.Test.objects.create(student=user,test_date=today,start_day=start_day,end_day=end_day,book_name=book_name)
-        for i in range(0,len(data)):
-            new_test.test_words.add(data[i].id)
-        new_test.save()
-        return Response(status=status.HTTP_201_CREATED)
-
+            test_date = request.data['test_date']
+            length = len(models.Word.objects.filter(Q(book_name=book_name)&Q(day__gte=start_day)&Q(day__lte=end_day)))
+            much = 105
+            if(int(length*cnt/100)<105):
+                much = int(length*cnt/100)
+            data = models.Word.objects.filter(Q(book_name=book_name)&Q(day__gte=start_day)&Q(day__lte=end_day)).order_by('?')[:much]
+            user = models.Student.objects.get(uuid=uuid)
+            today = datetime.datetime(int(test_date.split('-')[0]),int(test_date.split('-')[1]),int(test_date.split('-')[2]))
+            new_test = models.Test.objects.create(student=user,test_date=today,start_day=start_day,end_day=end_day,book_name=book_name)
+            for i in range(0,len(data)):
+                new_test.test_words.add(data[i].id)
+            new_test.save()
+            
+            data = {"status" : new_test.uuid}
+            return Response(data=data,status=status.HTTP_201_CREATED)
+        except Exception as e:
+            print(e)
+            data = {"status" : "fail"}
+            return Response(data=data,status=status.HTTP_404_NOT_FOUND)
 class getClass(APIView):
     def get(self,request,format=None):
         classes = models.Sclass.dump_bulk()
