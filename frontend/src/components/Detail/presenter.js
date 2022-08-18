@@ -9,12 +9,17 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import ReactToPrint from 'react-to-print';
 import ReactLoading from 'react-loading';
+import {ToastsContainer, ToastsStore, ToastsContainerPosition} from 'react-toasts';
+ 
 const footer = (
   <p>날짜를 선택해주세요</p>
 );
+
 const Detail = (props, context) => (
  
   <div className={styles.main}>
+    <ToastsContainer store={ToastsStore} 
+                                     />
     <>
       <div className={styles.loadingpage}>
         {(props.imgok || props.alram)  && (<ReactLoading type={"spinningBubbles"} color={"black"} height={'200px'} width={'200px'} />)}
@@ -30,7 +35,7 @@ const Detail = (props, context) => (
       >
         <div  className={styles.hrsect}>책을 선택해주세요</div>
         <div className={styles.box}>
-        <select name="selectbook" onChange={props.handle} className={styles.selectbox}>
+        <select name="selectbook" onChange={props.handle} className={styles.selectbox} defaultValue={props.selectbook}>
           {props.booklist.length!=0 && props.booklist.map((book,index) =>
              <option value={book.name}>{book.name}</option>
             )}
@@ -95,6 +100,9 @@ const Detail = (props, context) => (
               저장
             </button>
           </div>
+        </div>
+        <div className={styles.middle2box2}>
+        ※ 인원 완전성을 확인하세요 ※
         </div>
         <div className={styles.middle2box}>
           선택한 그룹 인원 : {props.stdlist.length} 명
@@ -212,7 +220,7 @@ const TestButton = (props,context) => (
       <td  onClick={(e) => props.printImage(props.test.uuid)} className={styles.bodys}>
         {props.test.book_name} 
       </td>
-      <td  onClick={(e) => props.printImage(props.test.uuid)} className={styles.bodys}>{props.test.test_date}
+      <td  onClick={(e) => props.printImage(props.test.uuid)} className={styles.bodys}>{props.test.test_date}({props.test.test_day})
       </td>
       <td  onClick={(e) => props.printImage(props.test.uuid)} className={styles.bodys}>{props.test.start_day} ~ {props.test.end_day}
       </td>
@@ -232,7 +240,7 @@ const TestButton = (props,context) => (
       <td onClick={(e) => props.printImage(props.test.uuid)} className={styles.bodys}>
         {props.test.book_name} 
       </td>
-      <td onClick={(e) => props.printImage(props.test.uuid)} className={styles.bodys}>{props.test.test_date}
+      <td onClick={(e) => props.printImage(props.test.uuid)} className={styles.bodys}>{props.test.test_date}({props.test.test_day})
       </td>
       <td onClick={(e) => props.printImage(props.test.uuid)} className={styles.bodys}>{props.test.start_day} ~ {props.test.end_day}
       </td>
@@ -275,6 +283,7 @@ Detail.propTypes = {
   closeModal : PropTypes.func.isRequired,
   openModal2 : PropTypes.func.isRequired,
   closeModal2 : PropTypes.func.isRequired,
+  selectbook : PropTypes.string.isRequired,
   isOpen : PropTypes.bool.isRequired,
   isOpen2 : PropTypes.bool.isRequired,
   booklist :  PropTypes.bool.isRequired,

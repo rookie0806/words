@@ -31,6 +31,7 @@ class FailWordAdmin(admin.ModelAdmin):
 
 @admin.register(models.Student)
 class StudentAdmin(admin.ModelAdmin):
+    search_fields = ['sclasss__name']
     list_display = (
         'name',
         'birth',

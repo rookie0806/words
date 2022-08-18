@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 import Detail from "./presenter";
 import Main from "../Main/presenter";
+import {ToastsContainer, ToastsStore, ToastsContainerPosition} from 'react-toasts';
 class Container extends Component {
   state = {
     text : "",
@@ -32,7 +33,7 @@ class Container extends Component {
     isOpen2 : false,
     selectedDay: null,
     selectedDate: "",
-    selectbook : "",
+    selectbook : "주니어입문",
     selectcnt : 100,
     stduuid : "",
     imgok : false,
@@ -90,20 +91,33 @@ class Container extends Component {
     ))
   }
   openModal2= (e) =>  {
-    this.setState(() => (
+    this.setState(
       {
         isOpen2: true,
         id : "",
         word : ""
+      },()=>{
+        setTimeout(function() {
+          try{
+            document.getElementById("failword").focus();
+          }
+          catch{
+          }
+        }, 200);
       }
-    ))
+    )
+  
   }
   delete = (uuid) => {
     const {deleteTest} = this.props;
-    this.setState({
-      deleteflag : true
-    })
-    deleteTest(uuid);
+    var returnValue = window.confirm("삭제하시겠습니까?");
+    if(returnValue==true){
+      this.setState({
+        deleteflag : true
+      })
+      deleteTest(uuid);
+    }
+    
   }
   printImage = (uuid) => {
     const {getImgurl} = this.props;
@@ -207,6 +221,7 @@ class Container extends Component {
       try{
         this.setState({
           testlist: nextProps.testlist,
+          selectbook : nextProps.testlist[0].book_name,
           start_day : nextProps.testlist[0].end_day + 1,
           end_day : nextProps.testlist[0].end_day + 3
         })
@@ -218,11 +233,11 @@ class Container extends Component {
       }
       
     }
+    
     if(nextProps.booklist){
       try{
         this.setState({
           booklist: nextProps.booklist,
-          selectbook : nextProps.booklist[0].name
         })
       } 
       catch(e){
@@ -299,7 +314,7 @@ class Container extends Component {
   onsaveClick = (e) =>{
     const {setStudentBigo} = this.props;
     setStudentBigo(this.state.text,e.currentTarget.id);
-    alert("저장하였습니다")
+    ToastsStore.success("저장했습니다.");
   }
   makeTestClick = (e) =>{
     const{makeTest} = this.props;

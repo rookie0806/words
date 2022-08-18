@@ -59,6 +59,8 @@
     "react-router-config": "^5.1.1",
     "react-router-dom": "^5.2.0",
     "react-router-redux": "^4.0.8",
+    "react-toastify": "^9.0.8",
+    "react-toasts": "^3.0.6",
     "react-treebeard": "^3.2.4",
     "reactotron-react-js": "^3.3.7",
     "reactotron-redux": "^3.1.3",
