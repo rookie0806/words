@@ -1,6 +1,6 @@
 .main{
   width: 21cm;
-  height: 28cm;
+  height: 29.7cm;
   display: block;
   margin: 0 auto;
   margin-bottom: 0.5cm;
@@ -10,13 +10,14 @@
   display: flex;
 }
 .logo{
-  height: 8vh;
-  padding: 20px 0px 0px 20px;
+  height: 10vh;
+  padding: 10px 0px 0px 10px;
   width: 40%;
 }
 .info{
   width: 60%;
-  margin-top:30px;
+  margin-top: 20px;
+  padding-left: 30%;
   .line{
     text-align: right;
     margin-right: 20px;
@@ -25,6 +26,11 @@
     margin-bottom: 10px;
     font-family: 'SC3';
     font-weight: 600;
+    display: flex;
+    .text{
+      margin-left:3px;
+      margin-right:3px;
+    }
   }
 }
 

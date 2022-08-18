@@ -45,7 +45,7 @@ class getStudentTest(APIView):
     def get(self, request, format=None):
         stu_uuid = request.query_params.get('uuid', None)
         if stu_uuid is not None:
-            test = models.Test.objects.filter(student=stu_uuid).order_by('-id')
+            test = models.Test.objects.filter(Q(student=stu_uuid)&~Q(book_name='오답문제집')).order_by('-id')
             serializer = serializers.SimpleTestSerializer(test,many=True)
             return Response(data=serializer.data, status=status.HTTP_200_OK)
         else:
@@ -88,10 +88,10 @@ class Maketest(APIView):
             book_name = request.data['book_name']
             test_date = request.data['test_date']
             length = len(models.Word.objects.filter(Q(book_name=book_name)&Q(day__gte=start_day)&Q(day__lte=end_day)))
-            much = 105
-            if(int(length*cnt/100)<105):
-                much = int(length*cnt/100)
-            data = models.Word.objects.filter(Q(book_name=book_name)&Q(day__gte=start_day)&Q(day__lte=end_day)).order_by('?')[:much]
+            #much = 105
+            #if(int(length*cnt/100)<105):
+            #    much = int(length*cnt/100)
+            data = models.Word.objects.filter(Q(book_name=book_name)&Q(day__gte=start_day)&Q(day__lte=end_day))#.order_by('?')
             user = models.Student.objects.get(uuid=uuid)
             today = datetime.datetime(int(test_date.split('-')[0]),int(test_date.split('-')[1]),int(test_date.split('-')[2]))
             new_test = models.Test.objects.create(student=user,test_date=today,start_day=start_day,end_day=end_day,book_name=book_name)
@@ -105,6 +105,27 @@ class Maketest(APIView):
             print(e)
             data = {"status" : "fail"}
             return Response(data=data,status=status.HTTP_404_NOT_FOUND)
+
+class makeFailTest(APIView):
+    permission_classes = ()
+    authentication_classes = ()
+    @csrf_exempt
+    def post(self,request,format=None):
+        try:
+            uuid = request.data['uuid']
+            user = models.Student.objects.get(uuid=uuid)
+            data = models.FailWord.objects.get(student=user)#.order_by('?')
+            today = date.today()
+            new_test = models.Test.objects.create(student=user,test_date=today,start_day=0,end_day=0,book_name="오답문제집")
+            new_test.test_words.set([val for val in data.fail_words.all()])
+            new_test.save()
+            data = {"status" : new_test.uuid}
+            return Response(data=data,status=status.HTTP_201_CREATED)
+        except Exception as e:
+            print(e)
+            data = {"status" : "fail"}
+            return Response(data=data,status=status.HTTP_404_NOT_FOUND)
+
 class getClass(APIView):
     def get(self,request,format=None):
         classes = models.Sclass.dump_bulk()

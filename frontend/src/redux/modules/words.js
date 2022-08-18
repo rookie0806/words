@@ -8,6 +8,13 @@ const SET_TESTINFO = "SET_TESTINFO";
 const SET_IMGURL = "SET_IMGURL";
 const SET_WORD = "SET_WORD";
 const SET_STATUS = "SET_STATUS";
+const SET_FAILTEST = "SET_FAILTEST";
+function setFailTest(failtest){
+  return{
+    type : SET_FAILTEST,
+    failtest,
+  };
+}
 function setStatus(status){
   return{
     type : SET_STATUS,
@@ -175,6 +182,26 @@ function setFailWord(uuid,id) {
       .catch(err => console.log(err));
   }
 }
+function makeFailTest(uuid){
+  return (dispatch, getState ) => {
+    fetch("/words/makefailtest/",{
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+            "uuid" : uuid,
+        })
+    })
+    .then(response => {
+      return response.json();
+    })
+    .then(json => {
+      dispatch(setFailTest(json));
+    })
+    .catch(err => console.log(err));
+  };
+}
 function makeTest(uuid,start_day,end_day,percent,book_name,test_date){
   return (dispatch, getState ) => {
     fetch("/words/maketest/",{
@@ -268,11 +295,20 @@ function reducer(state = initialState, action) {
       return applySetWord(state,action);
     case SET_STATUS:
       return applySetStatus(state,action);
+    case SET_FAILTEST:
+      return applySetFailTest(state,action);
     default:
       return state;
   }
 }
-// Reducer Functions
+// Reducer Functions'
+function applySetFailTest(state, action) {
+  const { failtest } = action;
+  return {
+    ...state,
+    failtest
+  };
+}
 function applySetWord(state, action) {
   const { word } = action;
   return {
@@ -355,6 +391,7 @@ const actionCreators = {
   getImgurl,
   setFailWord,
   deleteTest,
+  makeFailTest
 };
 
 export { actionCreators };

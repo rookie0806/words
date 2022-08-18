@@ -23,6 +23,11 @@ urlpatterns = [
         name='makeTest'
     ),
     url(
+        regex=r'^makefailtest/$',
+        view=views.makeFailTest.as_view(),
+        name='makeFailTest'
+    ),
+    url(
         regex=r'^test/$',
         view=views.TestInfo.as_view(),
         name='test'

@@ -11,6 +11,7 @@ class Container extends Component {
     cnt : 100,
     testlistloading:true,
     alram : false,
+    failtestopen : false,
     data : {
     
     },
@@ -56,7 +57,8 @@ class Container extends Component {
     studentlist: PropTypes.array.isRequired,
     booklist : PropTypes.array.isRequired,
     studentinfo: PropTypes.array.isRequired,
-    makeTest : PropTypes.array.isRequired,
+    makeTest : PropTypes.func.isRequired,
+    makeFailTest : PropTypes.func.isRequired,
     deleteTest : PropTypes.func.isRequired,
     imgurl : PropTypes.string.isRequired,
     setFailWord: PropTypes.func.isRequired,
@@ -71,7 +73,7 @@ class Container extends Component {
       setFailWord(this.state.stduuid,e.target.value);
       try{
         this.setState({
-          stduuid : '',
+          failword : '',
         })
         document.getElementById("failword").value = "";
       }
@@ -226,6 +228,20 @@ class Container extends Component {
           })
       }
     }
+    if(nextProps.failtest){
+      console.log("dd"+this.state.failtestopen);
+      if(this.state.failtestopen==true){
+        this.setState({
+          failtestopen : false,
+        })
+        var win = window.open("/test/"+nextProps.failtest.status);
+        setTimeout(function() {
+            win.print();
+            win.close();
+        }, 700);
+      }
+     
+    }
     if(nextProps.status){
       if(this.state.deleteflag==true){
         this.setState({
@@ -292,6 +308,13 @@ class Container extends Component {
       makeTest(this.state.stduuid,this.state.start_day,this.state.end_day,this.state.selectcnt,this.state.selectbook,this.state.test_date)
     });
   }
+  makeFailTestClick = (e) =>{
+    const{makeFailTest} = this.props;
+    makeFailTest(this.state.stduuid);
+    this.setState({
+      failtestopen:true,
+    })
+  }
   handle = (e) =>{
     this.setState({
       [e.target.name] : e.target.value
@@ -301,7 +324,7 @@ class Container extends Component {
     
     const {isOpen,data,testlist,testlistloading,noselect,stdlist,stdinfo} = this.state;
     return (
-      <Detail delete={this.delete} printImage={this.printImage }makeTestClick={this.makeTestClick} onKeyPress={this.onKeyPress} setSelectedDay={this.setSelectedDay} {...this.state} isOpen={isOpen} openModal2={this.openModal2} closeModal2={this.closeModal2} openModal={this.openModal} closeModal={this.closeModal} handle={this.handle} onsaveClick={this.onsaveClick} testlist={testlist} stdinfo={stdinfo} stdlist={stdlist} testlistloading={testlistloading} data={data} noselect={noselect}
+      <Detail makeFailTestClick={this.makeFailTestClick} delete={this.delete} printImage={this.printImage }makeTestClick={this.makeTestClick} onKeyPress={this.onKeyPress} setSelectedDay={this.setSelectedDay} {...this.state} isOpen={isOpen} openModal2={this.openModal2} closeModal2={this.closeModal2} openModal={this.openModal} closeModal={this.closeModal} handle={this.handle} onsaveClick={this.onsaveClick} testlist={testlist} stdinfo={stdinfo} stdlist={stdlist} testlistloading={testlistloading} data={data} noselect={noselect}
       onToggle={this.onToggle} onClick={this.onClick} />
     );
   }

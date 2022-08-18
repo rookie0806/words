@@ -138,6 +138,9 @@ const Detail = (props, context) => (
           <button onClick={props.openModal2}className={styles.newbtn2}>
             틀린 문제 등록
           </button>
+          <button onClick={props.makeFailTestClick}className={styles.newbtn2}>
+            오답문제지 출력 
+          </button>
           <button onClick={props.openModal}className={styles.newbtn}>
             새로운 시험지 만들기
           </button>
@@ -264,6 +267,7 @@ Detail.propTypes = {
   handle:PropTypes.func.isRequired,
   noselect : PropTypes.func.isRequired,
   stdlist : PropTypes.object.isRequired,
+  makeFailTestClick:PropTypes.func.isRequired,
   delete :  PropTypes.func.isRequired,
   stdinfo : PropTypes.object.isRequired,
   testlist :  PropTypes.object.isRequired,
