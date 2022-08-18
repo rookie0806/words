@@ -85,6 +85,7 @@ class Container extends Component {
     this.setState(() => (
       {
         isOpen: true,
+        selectcnt : 100,
       }
     ))
   }
@@ -92,6 +93,8 @@ class Container extends Component {
     this.setState(() => (
       {
         isOpen2: true,
+        id : "",
+        word : ""
       }
     ))
   }
@@ -316,6 +319,7 @@ class Container extends Component {
     })
   }
   handle = (e) =>{
+    console.log([e.target.name], e.target.value)
     this.setState({
       [e.target.name] : e.target.value
     })
