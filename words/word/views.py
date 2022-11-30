@@ -30,7 +30,7 @@ class FileUpload(APIView):
             for line in rdr:
                 if models.Word.objects.filter(Q(book_name=line[0])&Q(word_eng=line[2])).exists():
                     try:
-                        test = models.Word.objects.get(Q(book_name=line[0])&Q(word_eng=line[2]))
+                        test = models.Word.objects.get(Q(book_name=line[0])&Q(day=line[1].split('일')[0])&Q(word_eng=line[2]))
                         if(test.word_kor!=line[3]):
                             test.word_kor = line[3]
                             test.save()
