@@ -176,7 +176,7 @@ class Container extends Component {
         setTimeout(function() {
           win.print();
           win.close();
-      }, 250);
+      }, 1000);
         /*
         win.document.write('<html lang="jp"><head>');
         win.document.write('<meta charset="UTF-8">');
@@ -193,7 +193,7 @@ class Container extends Component {
         setTimeout(function() {
             win.print();
             win.close();
-        }, 250);
+        }, 1000);
       }
     }
     if(nextProps.classlist){
@@ -263,7 +263,7 @@ class Container extends Component {
         setTimeout(function() {
             win.print();
             win.close();
-        }, 700);
+        }, 1000);
       }
      
     }
