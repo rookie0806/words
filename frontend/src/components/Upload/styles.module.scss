@@ -1,0 +1,26 @@
+.main{
+  width: 21cm;
+  height: 29.8cm;
+  display: block;
+  margin: 0 auto;
+  margin-bottom: 0.5cm;
+  background-color: white;
+  display: flex;
+  align-items: center;
+  .file{
+    margin-left:auto;
+    margin-right:auto;
+  }
+}
+
+label {
+  width: 350px;
+  min-height: 400px;
+  box-sizing: border-box;
+}
+
+h1{
+  text-align: center;
+  margin-bottom: 20px;
+  font-weight: 700;
+}

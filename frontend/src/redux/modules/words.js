@@ -8,6 +8,13 @@ const SET_TESTINFO = "SET_TESTINFO";
 const SET_IMGURL = "SET_IMGURL";
 const SET_WORD = "SET_WORD";
 const SET_STATUS = "SET_STATUS";
+const SET_FAILTEST = "SET_FAILTEST";
+function setFailTest(failtest){
+  return{
+    type : SET_FAILTEST,
+    failtest,
+  };
+}
 function setStatus(status){
   return{
     type : SET_STATUS,
@@ -69,6 +76,18 @@ function setTestInfo(testinfo) {
   };
 }
 // API Actions
+function getCookie(cookieName){
+  var cookieValue=null;
+  if(document.cookie){
+      var array=document.cookie.split((escape(cookieName)+'='));
+      if(array.length >= 2){
+          var arraySub=array[1].split(';');
+          cookieValue=unescape(arraySub[0]);
+      }
+  }
+  return cookieValue;
+}
+
 function deleteTest(uuid) {
   return (dispatch, getState) => {
     fetch("/words/deletetest/?uuid="+uuid, {
@@ -175,7 +194,48 @@ function setFailWord(uuid,id) {
       .catch(err => console.log(err));
   }
 }
-function makeTest(uuid,start_day,end_day,percent,book_name){
+function makeFailTest(uuid){
+  return (dispatch, getState ) => {
+    fetch("/words/makefailtest/",{
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+            "uuid" : uuid,
+        })
+    })
+    .then(response => {
+      return response.json();
+    })
+    .then(json => {
+      dispatch(setFailTest(json));
+    })
+    .catch(err => console.log(err));
+  };
+}
+function csvupload(file){
+  var csrftoken = getCookie('csrftoken');
+  let formData = new FormData();
+  console.log(file)
+  formData.append('csv_file',file);
+  return (dispatch, getState ) => {
+    fetch('/words/fileupload/', {
+      method: 'POST',
+      headers: {
+        'X-CSRFToken': csrftoken
+      },
+      body:formData
+    }).then(response => {
+      return response.json();
+    })
+    .then(json => {
+      dispatch(setStatus(json));
+    })
+    .catch(err => console.log(err));
+  };
+}
+function makeTest(uuid,start_day,end_day,percent,book_name,test_date){
   return (dispatch, getState ) => {
     fetch("/words/maketest/",{
         method: "POST",
@@ -188,14 +248,17 @@ function makeTest(uuid,start_day,end_day,percent,book_name){
             "end_day" : end_day,
             "cnt" : percent,
             "book_name" : book_name,
+            "test_date" : test_date,
         })
     })
     .then(response => {
-      return response.status;
-    }) .then(status => {
-      dispatch(setStatusCode(status));
+      return response.json();
     })
-}
+    .then(json => {
+      dispatch(setStatusCode(json));
+    })
+    .catch(err => console.log(err));
+  };
 }
 
 function getBookList(){
@@ -265,11 +328,20 @@ function reducer(state = initialState, action) {
       return applySetWord(state,action);
     case SET_STATUS:
       return applySetStatus(state,action);
+    case SET_FAILTEST:
+      return applySetFailTest(state,action);
     default:
       return state;
   }
 }
-// Reducer Functions
+// Reducer Functions'
+function applySetFailTest(state, action) {
+  const { failtest } = action;
+  return {
+    ...state,
+    failtest
+  };
+}
 function applySetWord(state, action) {
   const { word } = action;
   return {
@@ -352,6 +424,8 @@ const actionCreators = {
   getImgurl,
   setFailWord,
   deleteTest,
+  makeFailTest,
+  csvupload
 };
 
 export { actionCreators };

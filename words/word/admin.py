@@ -12,6 +12,7 @@ class WordAdmin(admin.ModelAdmin):
         'book_name',
         'day',
         'word_eng',
+        'word_kor',
         'uuid'
     )
 
@@ -31,6 +32,7 @@ class FailWordAdmin(admin.ModelAdmin):
 
 @admin.register(models.Student)
 class StudentAdmin(admin.ModelAdmin):
+    search_fields = ['sclasss__name']
     list_display = (
         'name',
         'birth',

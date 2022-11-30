@@ -1,6 +1,6 @@
 .main{
   width: 21cm;
-  height: 28cm;
+  height: 29.8cm;
   display: block;
   margin: 0 auto;
   margin-bottom: 0.5cm;
@@ -10,21 +10,27 @@
   display: flex;
 }
 .logo{
-  height: 8vh;
-  padding: 20px 0px 0px 20px;
-  width: 40%;
+  height: 5%;
+  padding: 5px 0px 0px 5px;
+  width: 20%;
 }
 .info{
-  width: 60%;
-  margin-top:30px;
+  width: 80%;
+  margin-top: 5px;
+  padding-left: 55%;
   .line{
     text-align: right;
     margin-right: 20px;
-    font-size: 17px;
+    font-size: 12px;
     color: black;
-    margin-bottom: 10px;
+    margin-bottom: 5px;
     font-family: 'SC3';
     font-weight: 600;
+    display: flex;
+    .text{
+      margin-left:3px;
+      margin-right:3px;
+    }
   }
 }
 
@@ -54,10 +60,11 @@
   border-right:1px solid #243D4F;
   border-bottom: 1px solid #243D4F;
   text-align: center;
-  font-size: 12px;
-  height: 28px;
+  font-size: 9px;
+  height: 30px;
   vertical-align: middle;
   cursor: pointer;
+  text-overflow: ellipsis;
 }
 .headerd{
   width: 10%;
@@ -92,6 +99,7 @@ tr{
     border-color: inherit;
 }
 .testtable{
+  margin-top:20px;
   width: 98%;
   margin-left:auto;
   margin-right:auto;

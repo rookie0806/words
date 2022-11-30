@@ -9,12 +9,17 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import ReactToPrint from 'react-to-print';
 import ReactLoading from 'react-loading';
+import {ToastsContainer, ToastsStore, ToastsContainerPosition} from 'react-toasts';
+ 
 const footer = (
   <p>날짜를 선택해주세요</p>
 );
+
 const Detail = (props, context) => (
  
   <div className={styles.main}>
+    <ToastsContainer store={ToastsStore} 
+                                     />
     <>
       <div className={styles.loadingpage}>
         {(props.imgok || props.alram)  && (<ReactLoading type={"spinningBubbles"} color={"black"} height={'200px'} width={'200px'} />)}
@@ -30,12 +35,16 @@ const Detail = (props, context) => (
       >
         <div  className={styles.hrsect}>책을 선택해주세요</div>
         <div className={styles.box}>
-        <select name="selectbook" onChange={props.handle} className={styles.selectbox}>
+        <select name="selectbook" onChange={props.handle} className={styles.selectbox} defaultValue={props.selectbook}>
           {props.booklist.length!=0 && props.booklist.map((book,index) =>
              <option value={book.name}>{book.name}</option>
             )}
             
         </select>
+        </div>
+        <div  className={styles.hrsect}>테스트 날짜를 입력해주세요</div>
+        <div className={styles.box}>
+          <input name="test_date" onChange={props.handle} className={styles.inputbox} defaultValue={props.test_date}/>
         </div>
         <div  className={styles.hrsect}>시작 날짜와 끝날짜를 입력해주세요</div>
         <div className={styles.box}>
@@ -92,6 +101,12 @@ const Detail = (props, context) => (
             </button>
           </div>
         </div>
+        <div className={styles.middle2box2}>
+        ※ 인원 완전성을 확인하세요 ※
+        </div>
+        <div className={styles.middle2box}>
+          선택한 그룹 인원 : {props.stdlist.length} 명
+        </div>
         <div className={styles.topbottombox}>
 
               
@@ -130,6 +145,12 @@ const Detail = (props, context) => (
           <div className={styles.btnbox}>
           <button onClick={props.openModal2}className={styles.newbtn2}>
             틀린 문제 등록
+          </button>
+          <button onClick={props.makeFailTestClick}className={styles.newbtn2}>
+            오답문제지 출력 
+          </button>
+          <button onClick={props.makeFailTestWithAnswerClick}className={styles.newbtn2}>
+            오답문제지 출력(답지) 
           </button>
           <button onClick={props.openModal}className={styles.newbtn}>
             새로운 시험지 만들기
@@ -178,14 +199,14 @@ const Stdli= (props,context) => (
   {props.stduuid == props.std.uuid && (
     <li onClick={
         props.onClick} className={styles.stdlired} id={props.std.uuid}>
-        {props.std.name} {props.std.birth}
+        {props.std.name}
     </li>
   )
   }
   {props.stduuid != props.std.uuid && (
     <li onClick={
         props.onClick} className={styles.stdli} id={props.std.uuid}>
-        {props.std.name} {props.std.birth}
+        {props.std.name}
     </li>
   )
   }
@@ -202,7 +223,7 @@ const TestButton = (props,context) => (
       <td  onClick={(e) => props.printImage(props.test.uuid)} className={styles.bodys}>
         {props.test.book_name} 
       </td>
-      <td  onClick={(e) => props.printImage(props.test.uuid)} className={styles.bodys}>{props.test.test_date}
+      <td  onClick={(e) => props.printImage(props.test.uuid)} className={styles.bodys}>{props.test.test_date}({props.test.test_day})
       </td>
       <td  onClick={(e) => props.printImage(props.test.uuid)} className={styles.bodys}>{props.test.start_day} ~ {props.test.end_day}
       </td>
@@ -210,7 +231,7 @@ const TestButton = (props,context) => (
       </td>
       <td  onClick={(e) => props.printImage(props.test.uuid)} className={styles.bodys}>{props.test2-props.index}
       </td>
-      <td  onClick={(e) => props.printImage(props.test.uuid)} className={styles.bodys}>{props.index}
+      <td  onClick={(e) => props.printImage(props.test.uuid)} className={styles.bodys}>{props.index+1}
       </td>
     </tr>
     )}
@@ -222,7 +243,7 @@ const TestButton = (props,context) => (
       <td onClick={(e) => props.printImage(props.test.uuid)} className={styles.bodys}>
         {props.test.book_name} 
       </td>
-      <td onClick={(e) => props.printImage(props.test.uuid)} className={styles.bodys}>{props.test.test_date}
+      <td onClick={(e) => props.printImage(props.test.uuid)} className={styles.bodys}>{props.test.test_date}({props.test.test_day})
       </td>
       <td onClick={(e) => props.printImage(props.test.uuid)} className={styles.bodys}>{props.test.start_day} ~ {props.test.end_day}
       </td>
@@ -257,6 +278,8 @@ Detail.propTypes = {
   handle:PropTypes.func.isRequired,
   noselect : PropTypes.func.isRequired,
   stdlist : PropTypes.object.isRequired,
+  makeFailTestClick:PropTypes.func.isRequired,
+  makeFailTestWithAnswerClick :PropTypes.func.isRequired,
   delete :  PropTypes.func.isRequired,
   stdinfo : PropTypes.object.isRequired,
   testlist :  PropTypes.object.isRequired,
@@ -264,6 +287,7 @@ Detail.propTypes = {
   closeModal : PropTypes.func.isRequired,
   openModal2 : PropTypes.func.isRequired,
   closeModal2 : PropTypes.func.isRequired,
+  selectbook : PropTypes.string.isRequired,
   isOpen : PropTypes.bool.isRequired,
   isOpen2 : PropTypes.bool.isRequired,
   booklist :  PropTypes.bool.isRequired,

@@ -3,7 +3,7 @@ import Container from "./container";
 import { actionCreators as wordsActions } from "../../redux/modules/words"
 
 const mapStateToProps = (state, ownProps) => {
-  const { words:{word,testlist,classlist,studentlist,studentinfo,booklist,statuscode,imgurl,status}, router: { location } } = state;
+  const { words:{word,testlist,classlist,studentlist,studentinfo,booklist,statuscode,imgurl,status,failtest}, router: { location } } = state;
   return {
     testlist,
     classlist,
@@ -14,6 +14,7 @@ const mapStateToProps = (state, ownProps) => {
     status,
     imgurl,
     word,
+    failtest,
     pathname: location.pathname
   };
 };
@@ -41,8 +42,11 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     setStudentBigo : (bigo,uuid) => {
       dispatch(wordsActions.setStudentBigo(bigo,uuid));
     },
-    makeTest : (uuid,start_day,end_day,percent,book_name) => {
-      dispatch(wordsActions.makeTest(uuid,start_day,end_day,percent,book_name));
+    makeTest : (uuid,start_day,end_day,percent,book_name,test_date) => {
+      dispatch(wordsActions.makeTest(uuid,start_day,end_day,percent,book_name,test_date));
+    },
+    makeFailTest : (uuid,kor) => {
+      dispatch(wordsActions.makeFailTest(uuid,kor));
     },
     setFailWord : (uuid,id) => {
       dispatch(wordsActions.setFailWord(uuid,id));

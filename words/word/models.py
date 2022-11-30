@@ -7,6 +7,7 @@ class Word(models.Model):
     book_name = models.CharField(max_length=50,null=True)
     day = models.IntegerField(null=True)
     word_eng  = models.CharField(max_length=50,null=True)
+    word_kor = models.CharField(max_length=200,null=True)
     uuid = models.UUIDField(default=uuid.uuid4, editable=False)
     def __str__(self):
         return '{} - {}'.format(self.book_name, self.word_eng)
