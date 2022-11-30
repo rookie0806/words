@@ -11,7 +11,7 @@ SECRET_KEY = env(
     default="wpSVPnXNdQycJYfJ1vk5Am81Zqq1LJcq0WL2ha4sOX97V7T7OG0b0ZZZPURZhxCH",
 )
 # https://docs.djangoproject.com/en/dev/ref/settings/#allowed-hosts
-ALLOWED_HOSTS = ["localhost", "0.0.0.0", "127.0.0.1"]
+ALLOWED_HOSTS = ["localhost", "0.0.0.0", "127.0.0.1","13.52.153.199"]
 
 # CACHES
 # ------------------------------------------------------------------------------
