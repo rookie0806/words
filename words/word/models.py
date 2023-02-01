@@ -22,7 +22,7 @@ class BookName(models.Model):
         return '{}'.format(self.name)
 
 class Test(models.Model):
-    student = models.ForeignKey('Student',related_name='std_test',on_delete=models.CASCADE )
+    student = models.ForeignKey('Student',related_name='std_test',on_delete=models.CASCADE)
     score = models.BooleanField(default=False)
     test_date = BirthdayField(null=True)
     start_day = models.IntegerField(null=True)
