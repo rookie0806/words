@@ -129,7 +129,7 @@ class Maketest(APIView):
             test_date = request.data['test_date']
             length = len(models.Word.objects.filter(Q(book_name=book_name)&Q(day__gte=start_day)&Q(day__lte=end_day)))
             much = int(length*cnt/100)
-            data = models.Word.objects.filter(Q(book_name=book_name)&Q(day__gte=start_day)&Q(day__lte=end_day)).order_by('id')[:much]
+            data = models.Word.objects.filter(Q(book_name=book_name)&Q(day__gte=start_day)&Q(day__lte=end_day)).order_by('-id')[:much]
             user = models.Student.objects.get(uuid=uuid)
             today = datetime.datetime(int(test_date.split('-')[0]),int(test_date.split('-')[1]),int(test_date.split('-')[2]))
             new_test = models.Test.objects.create(student=user,test_date=today,start_day=start_day,end_day=end_day,book_name=book_name)
