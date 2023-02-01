@@ -38,7 +38,6 @@ class FileUpload(APIView):
                         pass
                 else:
                     tmp = models.Word.objects.create(book_name=line[0],day=int(line[1].split('일')[0]),word_eng=line[2],word_kor=line[3])
-                    #tmp = models.Word.objects.create(book_name=line[0],day=int(line[1].split('일')[0]),word_eng=line[2])
                     tmp.save()
                     try:
                         test = models.BookName.objects.get(name=line[0])
@@ -129,10 +128,8 @@ class Maketest(APIView):
             book_name = request.data['book_name']
             test_date = request.data['test_date']
             length = len(models.Word.objects.filter(Q(book_name=book_name)&Q(day__gte=start_day)&Q(day__lte=end_day)))
-            #much = 105
-            #if(int(length*cnt/100)<105):
             much = int(length*cnt/100)
-            data = models.Word.objects.filter(Q(book_name=book_name)&Q(day__gte=start_day)&Q(day__lte=end_day)).order_by('?')[:much]
+            data = models.Word.objects.filter(Q(book_name=book_name)&Q(day__gte=start_day)&Q(day__lte=end_day)).order_by('id')[:much]
             user = models.Student.objects.get(uuid=uuid)
             today = datetime.datetime(int(test_date.split('-')[0]),int(test_date.split('-')[1]),int(test_date.split('-')[2]))
             new_test = models.Test.objects.create(student=user,test_date=today,start_day=start_day,end_day=end_day,book_name=book_name)
