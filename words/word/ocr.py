@@ -12,7 +12,7 @@ import datetime
 from django.db.models import Q
 from datetime import date
 import os
-from django.views.decorators.csrf import csrf_exempt   
+from django.views.decorators.csrf import csrf_exempt    
 import json 
 from django.utils.decorators import method_decorator
 from django.shortcuts import render
@@ -23,7 +23,7 @@ import csv
 def pdftoexcel(savename,name):
     print (os.getcwd ())
     scriptpath = os.path.dirname(__file__)
-    filename = os.path.join(scriptpath, '../media/excelfile/sample.xlsx')
+    filename = os.path.join(scriptpath, 'media/excelfile/sample.xlsx')
     wb =openpyxl.load_workbook(filename)
     sheet = wb.get_sheet_by_name('Sheet1')
     sheet['A2'] = "test"
@@ -35,7 +35,7 @@ def pdftoexcel(savename,name):
     previnvocenum = "1234567890" 
     prevnum = 0
     scriptpath = os.path.dirname(__file__)
-    filename = os.path.join(scriptpath, '../media/pdffile/'+savename+".pdf")
+    filename = os.path.join(scriptpath, 'media/pdffile/'+savename+".pdf")
     print(filename)
     with pdfplumber.open(filename) as pdf:
         for i in range(0,len(pdf.pages)):
@@ -100,7 +100,7 @@ def pdftoexcel(savename,name):
                     pass
     name = name.split('.pdf')[0] + ".xlsx"
     scriptpath = os.path.dirname(__file__)
-    filename = os.path.join(scriptpath, "../media/excelfile/"+name)
+    filename = os.path.join(scriptpath, "media/excelfile/"+name)
     wb.save(filename)
     print(filename)
     with open(filename, 'rb') as f:
