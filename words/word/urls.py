@@ -86,5 +86,10 @@ urlpatterns = [
         regex=r'^fileupload/$',
         view=views.FileUpload.as_view(),
         name='test'
+    ),
+    url(
+        regex=r'^password/$',
+        view=views.Password.as_view(),
+        name='test'
     )
 ]

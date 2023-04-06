@@ -3,6 +3,7 @@ from rest_framework.response import Response
 from rest_framework import status
 from django.conf import settings
 from . import models, serializers
+
 from rest_framework.permissions import AllowAny
 import datetime
 from django.db.models import Q
@@ -83,6 +84,20 @@ class StudentInfo(APIView):
         else:
             return Response(status=status.HTTP_400_BAD_REQUEST)
 
+@method_decorator(csrf_exempt, name='dispatch')
+class Password(APIView):
+    @method_decorator(csrf_exempt)
+    def dispatch(self,request, *args, **kwargs):
+        return super(Password, self).dispatch(request,*args, **kwargs)
+    
+    @csrf_exempt
+    def post(self, request, format=None):
+        if request.data.get("password")=="tlsgks2023":
+            data = {"password" : "ok"}
+        else:
+            data = {"password" : "fail"}
+        return Response(data=data, status=status.HTTP_200_OK)
+    
 class TestInfo(APIView):
     def get(self, request, format=None):
         uuid = request.query_params.get('uuid', None)
