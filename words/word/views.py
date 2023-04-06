@@ -92,7 +92,7 @@ class Password(APIView):
     
     @csrf_exempt
     def post(self, request, format=None):
-        if request.data.get("password")=="tlsgks2023":
+        if (request.data.get("password")=="tlsgks2023" or request.data.get("password")=="신한2023"):
             data = {"password" : "ok"}
         else:
             data = {"password" : "fail"}
