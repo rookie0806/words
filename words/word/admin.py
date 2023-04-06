@@ -50,6 +50,12 @@ class TestAdmin(admin.ModelAdmin):
         'uuid'
     )
 
+@admin.register(models.ExcelFile)
+class ExcelFileAdmin(admin.ModelAdmin):
+    list_display = (
+        'name',
+    )
+
 
 class SclassAdmin(TreeAdmin):
     form = movenodeform_factory(models.Sclass)

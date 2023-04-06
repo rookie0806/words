@@ -4,7 +4,7 @@ import {Router,Link } from "react-router-dom";
 import styles from "./styles.module.scss";
 import { FileUploader } from "react-drag-drop-files";
 
-const fileTypes = ["csv"];
+const fileTypes = ["pdf"];
 const Upload = (props,context)=>(
   <div className={styles.main}>
     <div className={styles.file}>
@@ -26,7 +26,7 @@ const Upload = (props,context)=>(
           <h1>업로드 중</h1>
         }
         {props.statusflag==1 &&
-          <h1>업로드 성공</h1>
+          <a href={props.url} download>다운로드</a> 
         }
         {props.statusflag==2 &&
           <h1>업로드 실패</h1>
@@ -41,5 +41,6 @@ Upload.propTypes = {
   handleChange:PropTypes.func.isRequired,
   uploading: PropTypes.bool.isRequired,
   statusflag: PropTypes.number.isRequired,
+  url : PropTypes.string.isRequired
 };
 export default Upload;

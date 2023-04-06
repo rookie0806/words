@@ -6,6 +6,7 @@ class Container extends Component {
   state = {
     uploading:false,
     statusflag : 0,
+    url : ""
   };
   
   static propTypes = {
@@ -16,9 +17,11 @@ class Container extends Component {
   componentWillReceiveProps = nextProps => {
     if(nextProps.status){
       if(this.state.uploading==true){
-        if(nextProps.status=="ok"){
+        console.log(nextProps.status.length,nextProps.status)
+        if(nextProps.status[0].length>8){
           this.setState({
             statusflag : 1,
+            url : nextProps.status
           })
         }
         if(nextProps.status=="fail"){

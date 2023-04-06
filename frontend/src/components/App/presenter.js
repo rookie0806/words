@@ -13,8 +13,8 @@ const App = props => [
 const PublicRoutes = props => (
   <Switch>
       <Route path="/upload" component={Upload}/>
-      <Route path="/test/:testid" component={Main}/>
-      <Route path="/" component={Detail}/>
+      <Route path="/test/:testid" component={Upload}/>
+      <Route path="/" component={Upload}/>
   </Switch>
 );
 

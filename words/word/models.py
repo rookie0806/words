@@ -1,6 +1,8 @@
 from django.db import models
 from birthday import BirthdayField, BirthdayManager
 from treebeard.mp_tree import MP_Node
+import datetime
+import os
 import uuid
 # Create your models here.
 class Word(models.Model):
@@ -61,5 +63,7 @@ class Student(models.Model):
     def __str__(self):
         return self.name
 
-
+class ExcelFile(models.Model):
+    name = models.CharField(max_length=100,null=True)
+    excelfile  = models.FileField(null=True)
 

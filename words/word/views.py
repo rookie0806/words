@@ -15,6 +15,9 @@ from django.shortcuts import render
 from django.http import JsonResponse
 from django.core.files.storage import FileSystemStorage
 import csv
+from django.core.files.storage import FileSystemStorage
+from . import ocr
+import uuid
 @method_decorator(csrf_exempt, name='dispatch')
 class FileUpload(APIView):
     @method_decorator(csrf_exempt)
@@ -23,7 +26,20 @@ class FileUpload(APIView):
     @csrf_exempt
     def post(self, request, format=None):
         myfile = request.FILES['csv_file']
-        print(myfile)
+        #print(myfile.read())
+        fs = FileSystemStorage()
+        savename = str(uuid.uuid4())
+        filename = fs.save('pdffile/'+savename+".pdf", myfile)
+        try:
+            result = ocr.pdftoexcel(savename,myfile.name)
+            print(result.name)
+            data = {result.excelfile.url}
+            return Response(data=data,status=status.HTTP_201_CREATED)
+        except Exception as e:
+            print(e)
+            data = {"fail"}
+            return Response(data=data,status=status.HTTP_400_BAD_REQUEST)
+        '''
         decoded_file = myfile.read().decode('cp949').splitlines()
         rdr = csv.reader(decoded_file)
         try:
@@ -45,11 +61,7 @@ class FileUpload(APIView):
                         tmp_b = models.BookName.objects.create(name=line[0]) 
                         tmp_b.save()
             data = {"ok"}
-            return Response(data=data,status=status.HTTP_201_CREATED)
-        except Exception as e:
-            print(e)
-            data = {"fail"}
-            return Response(data=data,status=status.HTTP_400_BAD_REQUEST)
+            return Response(data=data,status=status.HTTP_201_CREATED)'''
 
 class Search(APIView):
     def get(self, request, format=None):
