@@ -23,9 +23,9 @@ import csv
 def pdftoexcel(savename,name):
     print (os.getcwd ())
     scriptpath = os.path.dirname(__file__)
-    MEDIA_ROOT = os.path.join(settings.MEDIA_ROOT, 'media')
+    MEDIA_ROOT = os.path.join(settings.MEDIA_ROOT)
     print(MEDIA_ROOT)
-    filename = os.path.join(scriptpath, 'media/excelfile/sample.xlsx')
+    filename = os.path.join(MEDIA_ROOT, 'excelfile/sample.xlsx')
     wb =openpyxl.load_workbook(filename)
     sheet = wb.get_sheet_by_name('Sheet1')
     sheet['A2'] = "test"
@@ -37,7 +37,7 @@ def pdftoexcel(savename,name):
     previnvocenum = "1234567890" 
     prevnum = 0
     scriptpath = os.path.dirname(__file__)
-    filename = os.path.join(scriptpath, 'media/pdffile/'+savename+".pdf")
+    filename = os.path.join(MEDIA_ROOT, 'pdffile/'+savename+".pdf")
     print(filename)
     with pdfplumber.open(filename) as pdf:
         for i in range(0,len(pdf.pages)):
@@ -102,7 +102,7 @@ def pdftoexcel(savename,name):
                     pass
     name = name.split('.pdf')[0] + ".xlsx"
     scriptpath = os.path.dirname(__file__)
-    filename = os.path.join(scriptpath, "media/excelfile/"+name)
+    filename = os.path.join(MEDIA_ROOT, "excelfile/"+name)
     wb.save(filename)
     print(filename)
     with open(filename, 'rb') as f:
