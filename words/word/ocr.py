@@ -23,6 +23,8 @@ import csv
 def pdftoexcel(savename,name):
     print (os.getcwd ())
     scriptpath = os.path.dirname(__file__)
+    MEDIA_ROOT = os.path.join(settings.BASE_DIR, 'media')
+    print(MEDIA_ROOT)
     filename = os.path.join(scriptpath, 'media/excelfile/sample.xlsx')
     wb =openpyxl.load_workbook(filename)
     sheet = wb.get_sheet_by_name('Sheet1')
